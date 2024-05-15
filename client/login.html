@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const handlesubmit = (e) => {
+            e.preventDefault();
+            const login = document.getElementById("login").value;
+            if(login==="admin"){            
+                window.location.href = "/?login=true";
+            }           
+            else if(login==="user1"){            
+                window.location.href = "/?login=true";
+            }
+            else{
+                alert("login incorrecto")
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="/login" method="post" onsubmit="handlesubmit(event)">
+        <input type="text" name="login" id="login" placeholder="login" required/>
+        <button type="submit">Enviar</button>
+    </form>  
+</body>
+</html>

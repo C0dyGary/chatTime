@@ -22,7 +22,16 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/", (req, res) => {
+const midleware = (req, res, next) => {
+  const { login } = req.query;
+  if (login === "true") {
+    next();
+  } else {
+    res.sendFile(process.cwd() + "/client/login.html");
+  }
+};
+
+app.get("/", midleware, (req, res) => {
   res.sendFile(process.cwd() + "/client/index.html");
 });
 
@@ -31,3 +40,4 @@ server.listen(PORT, () => {
 });
 
 app.use(express.static("client"));
+
