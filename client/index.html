@@ -11,16 +11,20 @@
       const form = document.getElementById("form");
       const input = document.getElementById("input");
       const messages = document.getElementById("messages");
-
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get("username");
+      const usernameElement = document.getElementById("username");
+      usernameElement.insertAdjacentHTML("beforeend", `Username: ${username}`);
+      
       socket.on("chat message", (msg) => {
-        const item = `<li>${msg}</li>`;
+        const item = `<li><p id="nombreus">${msg.username}</p> <p id="mensaje">${msg.value}</p></li>`;
         messages.insertAdjacentHTML("beforeend", item);
       });
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         if (input.value) {
-          socket.emit("chat message", input.value);
+          socket.emit("chat message", {value:input.value, username});
           input.value = "";
         }
       });
@@ -28,6 +32,7 @@
   </head>
   <body>    
     <h1 class="titulo">Chat</h1>
+    <section id="usuario"><h2 id="username"></h2></section>
     <section id="chat">
       <ul id="messages"></ul>
       <form id="form">

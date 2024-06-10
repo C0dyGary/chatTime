@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+    <script>
+        function handlesubmit(event){
+            event.preventDefault();
+            // Obtener los datos del formulario
+            const form = event.target;
+            const formData = new FormData(form);
+            //ESTA ES LA URL DE LA API TOCARA CAMBIARLA CADA VEZ QUE SE USA
+            const urlParams = "https://eba0-189-28-81-60.ngrok-free.app";
+            // Convertir FormData a un objeto para facilitar la visualización en consola
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            fetch(`${urlParams}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username: data.login, password: data.password})
+            }).then(response => response.json()).then(data => {
+                console.log(data);
+                window.location.href = `${urlParams}/index.html?username=${data.data.username}`;
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+            // Mostrar los datos en la consola
+            console.log(data);
+        }
+    </script>
+</head>
+<body>
+    <h1 class="titulo">Login</h1>
+    <form onsubmit="handlesubmit(event)" metohd="POST">
+        <input type="text" name="login" id="login" placeholder="login" required/>
+        <input type="password" name="password" id="password" placeholder="password" required/>
+        <button type="submit">Enviar</button>
+    </form>  
+</body>
+</html>
