@@ -23,26 +23,6 @@ io.on("connection", (socket) => {
   });
 });
 
-const midleware = (req, res, next) => {
-  try {
-  const users = 
-    [{"username": "admin", "password": "admin"},
-    {"username": "user1", "password": "user1"},
-    {"username": "user2", "password": "user2"}];
-  const { username, password } = req.body;
-  console.log(username, password);
-  users.map((user) => {
-  if (user.username === username && user.password === password) {
-    console.log("Login successful");
-    return next();
-  }else{
-    return res.status(400).json({message: "Login failed"});
-  }
-  });
-} catch (error) {
-  return res.status(400).json({message: "Login failed", error: error});}
-};
-
 app.get("/",(req, res) => {
   res.sendFile(process.cwd() + "/client/login.html");
 });
